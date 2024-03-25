@@ -1,11 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-</head>
-<body>
-    
-</body>
+  </head>
+  <body>
+    <div id="list"></div>
+  </body>
+  <script>
+    let host = "http://localhost:8080/";
+    displayItems();
+
+    function getAll() {
+      async function getAll() {
+        let response = await fetch(host + "/merger");
+        let result = await response.json();
+        return result;
+      }
+    }
+
+    async function displayItems() {
+      let menuItems = await getAll();
+      console.log(menuItems);
+      let list = document.getElementById("list");
+      list.innerHTML = "";
+
+      for (let item of menuItems) {
+        let div = document.createElement("div");
+        div.className = "card";
+        let innerHtml = `<h1>Name: ${item.name}</h1>
+        <p>Description: ${item.description}</p>
+        <p>Vegetarian: ${item.vegetarian}</p>
+        <p>Price: ${item.price}</p>`;
+        div.innerHTML = innerHtml;
+        list.appendChild(div);
+      }
+    }
+  </script>
 </html>
